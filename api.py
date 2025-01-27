@@ -5,7 +5,7 @@ from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 import base64, string, random
 
-BASE_TEXT = "Hello World"
+BASE_TEXT = "Hello world"
 
 def add_message(room_id, message, date):
     con, cur = start_db()

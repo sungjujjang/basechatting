@@ -1,0 +1,13 @@
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\bin\Debug\basechatting_client.exe.config
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\bin\Debug\basechatting_client.exe
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\bin\Debug\basechatting_client.pdb
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.csproj.AssemblyReference.cache
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.Form1.resources
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.Properties.Resources.resources
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.csproj.GenerateResource.cache
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.csproj.CoreCompileInputs.cache
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.exe
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.pdb
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechatting_client.websocketmain.resources
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\bin\Debug\websocket-sharp-core.dll
+C:\Users\USER\Desktop\폴더모음\바탕화면\workspace\basechatting\client\basechatting_client\obj\Debug\basechat.C12DB5FB.Up2Date

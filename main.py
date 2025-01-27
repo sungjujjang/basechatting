@@ -13,24 +13,27 @@ LAST_MESSAGE_ID = get_last_message()[0]  # 초기화
 CHECK_TIME = 0.1
 
 async def accept(websocket):
+    print("New connection")
     data = await websocket.recv()
+    print(f"Received data: {data}")
     try:
-        splited_data = data.split(":")
-        roomid = splited_data[0]
-        resultkey = splited_data[1]
+        roomid = data
     except:
         await websocket.send("Invalid data")
-        websocket.close()
+        await websocket.close()
         return
     else:
         room = get_room(roomid)
         if not room:
             await websocket.send("Room not found")
-            websocket.close()
+            await websocket.close()
             return
-        if resultkey != room[3]:
+        print(f"{room[3]}")
+        await websocket.send(f"{room[3]}")
+        tollgate = await websocket.recv()
+        if tollgate != "go":
             await websocket.send("Invalid key")
-            websocket.close()
+            await websocket.close()
             return
         print(f"New connection: {roomid}")
         await websocket.send("Connected to the server")
@@ -40,9 +43,10 @@ async def accept(websocket):
             while True:
                 last_message = get_last_message()
                 if last_message[0] != LAST_MESSAGE_ID:
-                    print(f"New message: {last_message[1]}: {last_message[2]}")
-                    await websocket.send(f"{last_message[1]}: {last_message[2]}")
-                    LAST_MESSAGE_ID = last_message[0]
+                    if last_message[1] == roomid:
+                        print(f"New message: {last_message[1]}: {last_message[2]}")
+                        await websocket.send(f"{last_message[1]}: {last_message[2]}")
+                        LAST_MESSAGE_ID = last_message[0]
                 await asyncio.sleep(CHECK_TIME)
         except websockets.exceptions.ConnectionClosed as e:
             print(f"Connection closed: {e}")
