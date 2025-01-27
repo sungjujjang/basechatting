@@ -10,13 +10,14 @@ def get_last_message():
     return last_message
 
 LAST_MESSAGE_ID = get_last_message()[0]  # 초기화
+CHECK_TIME = 0.1
 
 async def accept(websocket):
     data = await websocket.recv()
     try:
         splited_data = data.split(":")
         roomid = splited_data[0]
-        key = splited_data[1]
+        resultkey = splited_data[1]
     except:
         await websocket.send("Invalid data")
         websocket.close()
@@ -27,26 +28,25 @@ async def accept(websocket):
             await websocket.send("Room not found")
             websocket.close()
             return
-        try:
-            resultkey = aes_decrypt(room[3], key)
-        except:
+        if resultkey != room[3]:
             await websocket.send("Invalid key")
             websocket.close()
             return
-        else:
-            if resultkey != BASE_TEXT:
-                await websocket.send("Invalid key")
-                websocket.close()
-                return
-        print(f"New connection: {roomid}, {key}")
+        print(f"New connection: {roomid}")
         await websocket.send("Connected to the server")
+        await websocket.send(f"You connected to the room {room[1]}")
         global LAST_MESSAGE_ID
-        while True:
-            last_message = get_last_message()
-            if last_message[0] != LAST_MESSAGE_ID:
-                print(f"New message: {last_message[1]}: {last_message[2]}")
-                LAST_MESSAGE_ID = last_message[0]
-                await websocket.send(f"{last_message[1]}: {last_message[2]}")
+        try:
+            while True:
+                last_message = get_last_message()
+                if last_message[0] != LAST_MESSAGE_ID:
+                    print(f"New message: {last_message[1]}: {last_message[2]}")
+                    await websocket.send(f"{last_message[1]}: {last_message[2]}")
+                    LAST_MESSAGE_ID = last_message[0]
+                await asyncio.sleep(CHECK_TIME)
+        except websockets.exceptions.ConnectionClosed as e:
+            print(f"Connection closed: {e}")
+            return
 
 async def main():
     server = await websockets.serve(accept, "0.0.0.0", 8765)

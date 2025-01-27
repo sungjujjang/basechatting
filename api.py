@@ -13,6 +13,19 @@ def add_message(room_id, message, date):
     con.commit()
     con.close()
     
+def first_setting():
+    con = sqlite3.connect('db.db')
+    cur = con.cursor()
+    key = make_key()
+    f = open("key.txt", "w")
+    f.write(key)
+    f.close()
+    resultkey = aes_encrypt(BASE_TEXT, key)
+    con.execute(f'''INSERT INTO rooms (name, date, EncryptionText) VALUES ("admin", "{gettodate()}", "{resultkey}")''')
+    con.execute(f'''INSERT INTO messages (room_id, message, date) VALUES (1, "Hello World", "{gettodate()}")''')
+    con.commit()
+    con.close()
+    
 def get_room(id):
     con, cur = start_db()
     cur.execute(f"SELECT * FROM rooms WHERE id={id}")
