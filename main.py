@@ -1,13 +1,12 @@
 import asyncio
 import websockets
-from api import start_db  # add_message는 사용되지 않으므로 제거
+from api import start_db, get_room, aes_decrypt, BASE_TEXT  # add_message는 사용되지 않으므로 제거
 
 def get_last_message():
     con, cur = start_db()
     cur.execute("SELECT * FROM messages ORDER BY id DESC LIMIT 1")
     last_message = cur.fetchone()
     con.close()
-    print(last_message)
     return last_message
 
 LAST_MESSAGE_ID = get_last_message()[0]  # 초기화
@@ -23,7 +22,22 @@ async def accept(websocket):
         websocket.close()
         return
     else:
-        
+        room = get_room(roomid)
+        if not room:
+            await websocket.send("Room not found")
+            websocket.close()
+            return
+        try:
+            resultkey = aes_decrypt(room[3], key)
+        except:
+            await websocket.send("Invalid key")
+            websocket.close()
+            return
+        else:
+            if resultkey != BASE_TEXT:
+                await websocket.send("Invalid key")
+                websocket.close()
+                return
         print(f"New connection: {roomid}, {key}")
         await websocket.send("Connected to the server")
         global LAST_MESSAGE_ID

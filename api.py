@@ -5,11 +5,20 @@ from Crypto.Random import get_random_bytes
 from Crypto.Util.Padding import pad, unpad
 import base64, string, random
 
+BASE_TEXT = "Hello World"
+
 def add_message(room_id, message, date):
     con, cur = start_db()
     con.execute(f'''INSERT INTO messages (room_id, message, date) VALUES ({room_id}, "{message}", "{date}")''')
     con.commit()
     con.close()
+    
+def get_room(id):
+    con, cur = start_db()
+    cur.execute(f"SELECT * FROM rooms WHERE id={id}")
+    room = cur.fetchone()
+    con.close()
+    return room
 
 def start_db():
     con = sqlite3.connect('db.db')
