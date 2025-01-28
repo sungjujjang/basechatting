@@ -20,20 +20,20 @@ namespace basechatting_client
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            this.Text = "Base Chatting 접속 창";
             this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             // message box
-            if (roomid.Text == "" || roomkey.Text == "") {
-                MessageBox.Show("방 이름과 방 키를 입력해주세요.");
+            if (roomid.Text == "" || roomkey.Text == "" || nickname.Text == "") {
+                MessageBox.Show("방 이름과 방 키, 닉네임을 입력해주세요.");
                 return;
             } else {
                 string message = roomid.Text + "\n" + roomkey.Text;
-                MessageBox.Show(message);
                 int roomidint = int.Parse(roomid.Text);
-                websocketmain websocketmain = new websocketmain(roomidint, roomkey.Text);
+                websocketmain websocketmain = new websocketmain(roomidint, roomkey.Text, nickname.Text);
                 websocketmain.Show();
             }
         }

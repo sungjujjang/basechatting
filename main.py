@@ -15,9 +15,11 @@ CHECK_TIME = 0.1
 async def accept(websocket):
     print("New connection")
     data = await websocket.recv()
-    print(f"Received data: {data}")
+    # print(f"Received data: {data}")
     try:
-        roomid = data
+        data = data.split(":")
+        roomid = data[0]
+        nickname = data[1]
     except:
         await websocket.send("Invalid data")
         await websocket.close()
@@ -28,24 +30,24 @@ async def accept(websocket):
             await websocket.send("Room not found")
             await websocket.close()
             return
-        print(f"{room[3]}")
+        # print(f"{room[3]}")
         await websocket.send(f"{room[3]}")
         tollgate = await websocket.recv()
         if tollgate != "go":
             await websocket.send("Invalid key")
             await websocket.close()
             return
-        print(f"New connection: {roomid}")
-        await websocket.send("Connected to the server")
-        await websocket.send(f"You connected to the room {room[1]}")
+        # print(f"New connection: {roomid}")
+        # await websocket.send("Connected to the server")
+        # await websocket.send(f"You connected to the room {room[1]}")
         global LAST_MESSAGE_ID
         try:
             while True:
                 last_message = get_last_message()
                 if last_message[0] != LAST_MESSAGE_ID:
-                    if last_message[1] == roomid:
-                        print(f"New message: {last_message[1]}: {last_message[2]}")
-                        await websocket.send(f"{last_message[1]}: {last_message[2]}")
+                    if int(last_message[1]) == int(roomid):
+                        # print(f"New message: {last_message[1]}: {last_message[2]}")
+                        await websocket.send(f"{last_message[2]}")
                         LAST_MESSAGE_ID = last_message[0]
                 await asyncio.sleep(CHECK_TIME)
         except websockets.exceptions.ConnectionClosed as e:
